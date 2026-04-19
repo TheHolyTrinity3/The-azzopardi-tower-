@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Azzopardi Tower</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #04080d;
+    --bg2:       #080f18;
+    --bg3:       #0c1620;
+    --gold:      #c8a84b;
+    --gold-dim:  #7a6428;
+    --gold-glow: rgba(200,168,75,0.12);
+    --blue:      #1a6fff;
+    --blue-dim:  #0d3d8a;
+    --cyan:      #00cfff;
+    --green:     #00e87a;
+    --amber:     #ffaa00;
+    --text:      #d4c9b0;
+    --text-dim:  #5a5040;
+    --border:    rgba(200,168,75,0.15);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* STAR FIELD */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 8%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 25%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 12%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 92% 45%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 70%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 30% 90%, rgba(200,168,75,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 75% 5%, rgba(200,168,75,0.2) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 20px 120px;
+    z-index: 1;
+    background: radial-gradient(ellipse at 50% 60%, rgba(200,168,75,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 100%, rgba(26,111,255,0.08) 0%, transparent 50%);
+  }
+
+  /* TOWER ILLUSTRATION */
+  .tower-svg {
+    width: 80px;
+    height: 200px;
+    margin-bottom: 40px;
+    filter: drop-shadow(0 0 20px rgba(200,168,75,0.4));
+    animation: tower-pulse 4s ease infinite;
+  }
+
+  @keyframes tower-pulse {
+    0%,100% { filter: drop-shadow(0 0 20px rgba(200,168,75,0.4)); }
+    50% { filter: drop-shadow(0 0 40px rgba(200,168,75,0.7)) drop-shadow(0 0 80px rgba(26,111,255,0.3)); }
+  }
+
+  .hero-byline {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 9vw, 96px);
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1.0;
+    letter-spacing: -1px;
+    text-shadow: 0 0 80px rgba(200,168,75,0.3);
+    margin-bottom: 16px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--text);
+  }
+
+  .hero-tagline {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(13px, 2vw, 17px);
+    font-weight: 500;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 50px;
+  }
+
+  .hero-tagline span { color: var(--gold); }
+
+  /* OUTPUT PILLARS */
+  .pillars {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 60px;
+    background: var(--border);
+  }
+
+  .pillar {
+    background: var(--bg);
+    padding: 24px 30px;
+    text-align: center;
+    min-width: 140px;
+    flex: 1;
+    max-width: 180px;
+  }
+
+  .pillar-icon { font-size: 28px; margin-bottom: 10px; display: block; }
+  .pillar-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .pillar-name.gold { color: var(--gold); }
+  .pillar-name.blue { color: var(--cyan); }
+  .pillar-name.green { color: var(--green); }
+  .pillar-name.amber { color: var(--amber); }
+
+  .pillar-val {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  /* HERO BOTTOM LINE */
+  .hero-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--gold-dim);
+    letter-spacing: 5px;
+    animation: pulse 3s ease infinite;
+  }
+
+  @keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+  /* SECTIONS */
+  .section {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 80px 30px;
+  }
+
+  .section-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-tag::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 40px;
+  }
+
+  .section-title span { color: var(--gold); }
+  .section-title em { font-style: italic; font-weight: 300; }
+
+  .divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0;
+  }
+
+  /* WHAT IT IS */
+  .intro-text {
+    font-size: 20px;
+    line-height: 2;
+    color: var(--text);
+    margin-bottom: 30px;
+    font-weight: 300;
+  }
+
+  .intro-text strong { color: var(--gold); font-weight: 600; }
+
+  /* INTEGRATION BOX */
+  .integration {
+    border: 1px solid var(--border);
+    background: var(--gold-glow);
+    padding: 40px;
+    margin: 40px 0;
+    position: relative;
+  }
+
+  .integration::before {
+    content: '✦';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg);
+    padding: 0 16px;
+    color: var(--gold);
+    font-size: 16px;
+  }
+
+  .integration p {
+    font-size: 18px;
+    line-height: 1.9;
+    color: var(--text);
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* HOW IT WORKS — FLOW */
+  .flow-tower {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
+    gap: 0;
+    margin: 40px 0;
+  }
+
+  .flow-left, .flow-right {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .flow-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .flow-node {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 18px 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+  }
+
+  .flow-node-title {
+    color: var(--gold);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    font-size: 11px;
+  }
+
+  .flow-node-desc { color: var(--text-dim); line-height: 1.5; }
+
+  .flow-line {
+    width: 1px;
+    flex: 1;
+    background: linear-gradient(180deg, var(--gold-dim), transparent);
+    min-height: 20px;
+  }
+
+  .flow-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 10px rgba(200,168,75,0.5);
+  }
+
+  /* SYSTEM CARDS */
+  .sys-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  .sys-card {
+    background: var(--bg2);
+    padding: 34px 30px;
+  }
+
+  .sys-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+
+  .sys-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .sys-title.gold { color: var(--gold); }
+  .sys-title.cyan { color: var(--cyan); }
+  .sys-title.green { color: var(--green); }
+  .sys-title.amber { color: var(--amber); }
+
+  .sys-card p {
+    font-size: 15px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+
+  .sys-card p:last-child { margin-bottom: 0; }
+
+  .sys-stat {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+
+  /* WHY IT WORKS TOGETHER */
+  .loop-box {
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 50px 40px;
+    margin: 40px 0;
+    text-align: center;
+  }
+
+  .loop-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 30px;
+    font-style: italic;
+  }
+
+  .loop-steps {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+  }
+
+  .loop-step {
+    padding: 16px 20px;
+    text-align: center;
+  }
+
+  .loop-step-icon { font-size: 24px; display: block; margin-bottom: 8px; }
+
+  .loop-step-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    line-height: 1.5;
+  }
+
+  .loop-arrow {
+    color: var(--gold-dim);
+    font-size: 20px;
+    padding: 0 8px;
+  }
+
+  /* SPECS TABLE */
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    border: 1px solid var(--border);
+    margin: 30px 0;
+  }
+
+  .spec-table th {
+    background: var(--bg3);
+    color: var(--gold);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .spec-table td {
+    padding: 13px 18px;
+    border-bottom: 1px solid rgba(200,168,75,0.06);
+    color: var(--text-dim);
+    font-size: 15px;
+  }
+
+  .spec-table td:first-child {
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+
+  .spec-table tr:last-child td { border-bottom: none; }
+  .spec-table tr:hover td { background: rgba(200,168,75,0.04); }
+
+  /* PHASES */
+  .phases {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  .phase {
+    background: var(--bg2);
+    padding: 28px 24px;
+  }
+
+  .phase-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--gold-dim);
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+  }
+
+  .phase-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 10px;
+    line-height: 1.1;
+  }
+
+  .phase p {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .phase-cost {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* REALISM */
+  .realism-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 30px 0;
+  }
+
+  .realism-col {
+    background: var(--bg2);
+    padding: 30px;
+  }
+
+  .realism-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .realism-title.proven { color: var(--green); }
+  .realism-title.emerging { color: var(--amber); }
+
+  .realism-item {
+    font-size: 14px;
+    color: var(--text-dim);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(200,168,75,0.06);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    line-height: 1.4;
+  }
+
+  .realism-item::before { flex-shrink: 0; margin-top: 1px; }
+  .realism-item.proven::before { content: '✓'; color: var(--green); }
+  .realism-item.emerging::before { content: '◎'; color: var(--amber); }
+  .realism-item:last-child { border-bottom: none; }
+
+  /* INVENTOR */
+  .inventor-box {
+    border: 1px solid var(--border);
+    background: var(--gold-glow);
+    padding: 50px 40px;
+    text-align: center;
+    margin: 40px 0;
+  }
+
+  .inventor-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .inventor-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+
+  .inventor-box p {
+    max-width: 600px;
+    margin: 0 auto 20px;
+    font-size: 17px;
+    color: var(--text-dim);
+    line-height: 1.9;
+    font-style: italic;
+  }
+
+  .contact-link {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold-dim);
+    padding-bottom: 2px;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 60px 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 6px;
+    font-style: italic;
+  }
+
+  .footer-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .footer-outputs {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  .footer-copy {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    opacity: 0.4;
+    margin-top: 20px;
+    letter-spacing: 2px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .flow-tower { grid-template-columns: 1fr; }
+    .flow-center { display: none; }
+    .realism-grid { grid-template-columns: 1fr; }
+    .loop-arrow { display: none; }
+  }
+
+  p { margin-bottom: 16px; }
+  p:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+
+  <!-- TOWER SVG -->
+  <svg class="tower-svg" viewBox="0 0 80 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Sun orb -->
+    <circle cx="40" cy="10" r="8" fill="#c8a84b" opacity="0.9"/>
+    <circle cx="40" cy="10" r="12" fill="none" stroke="#c8a84b" stroke-width="0.5" opacity="0.4"/>
+    <circle cx="40" cy="10" r="18" fill="none" stroke="#c8a84b" stroke-width="0.3" opacity="0.2"/>
+    <!-- Tower body - tapered -->
+    <polygon points="40,22 28,160 52,160" fill="none" stroke="#c8a84b" stroke-width="1.5" opacity="0.8"/>
+    <polygon points="40,22 32,160 48,160" fill="rgba(200,168,75,0.05)"/>
+    <!-- Center spine -->
+    <line x1="40" y1="22" x2="40" y2="160" stroke="#c8a84b" stroke-width="0.5" opacity="0.4"/>
+    <!-- Zone lines -->
+    <line x1="31" y1="80" x2="49" y2="80" stroke="#00cfff" stroke-width="0.8" opacity="0.6"/>
+    <line x1="30" y1="120" x2="50" y2="120" stroke="#00e87a" stroke-width="0.8" opacity="0.6"/>
+    <!-- Base -->
+    <rect x="20" y="160" width="40" height="6" fill="none" stroke="#c8a84b" stroke-width="1" opacity="0.6"/>
+    <rect x="14" y="166" width="52" height="4" fill="none" stroke="#c8a84b" stroke-width="0.8" opacity="0.4"/>
+    <!-- Mirror field suggestion -->
+    <line x1="8" y1="155" x2="18" y2="140" stroke="#c8a84b" stroke-width="0.8" opacity="0.3"/>
+    <line x1="72" y1="155" x2="62" y2="140" stroke="#c8a84b" stroke-width="0.8" opacity="0.3"/>
+    <line x1="4" y1="165" x2="16" y2="148" stroke="#c8a84b" stroke-width="0.6" opacity="0.2"/>
+    <line x1="76" y1="165" x2="64" y2="148" stroke="#c8a84b" stroke-width="0.6" opacity="0.2"/>
+    <!-- Glow at base -->
+    <ellipse cx="40" cy="164" rx="30" ry="4" fill="rgba(26,111,255,0.15)"/>
+  </svg>
+
+  <div class="hero-byline">✦ &nbsp; An Original Design by M.J. Azzopardi &nbsp; ✦</div>
+  <h1>The <em>Azzopardi</em> Tower</h1>
+  <div class="hero-tagline">
+    <span>Energy</span> · <span>Clean Water</span> · <span>Pure Air</span> · <span>Hydrogen</span> — One Structure
+  </div>
+
+  <div class="pillars">
+    <div class="pillar">
+      <span class="pillar-icon">☀️</span>
+      <span class="pillar-name gold">Energy</span>
+      <span class="pillar-val">5–20 MW</span>
+    </div>
+    <div class="pillar">
+      <span class="pillar-icon">💧</span>
+      <span class="pillar-name blue">Water</span>
+      <span class="pillar-val">300,000 L/day</span>
+    </div>
+    <div class="pillar">
+      <span class="pillar-icon">🌿</span>
+      <span class="pillar-name green">Pure Air</span>
+      <span class="pillar-val">Continuous</span>
+    </div>
+    <div class="pillar">
+      <span class="pillar-icon">🔋</span>
+      <span class="pillar-name amber">Hydrogen</span>
+      <span class="pillar-val">Surplus Storage</span>
+    </div>
+  </div>
+
+  <div class="scroll-hint">↓ &nbsp; DESCEND &nbsp; ↓</div>
+  <div class="hero-bottom"></div>
+</section>
+
+<hr class="divider">
+
+<!-- WHAT IS IT -->
+<div class="section">
+  <div class="section-tag">// What It Is</div>
+  <h2 class="section-title">One Tower.<br><span>Four Resources.</span></h2>
+
+  <p class="intro-text">The Azzopardi Tower is a <strong>single integrated structure</strong> that simultaneously generates electricity, extracts clean drinking water from the atmosphere, purifies the surrounding air, and produces hydrogen fuel — powered entirely by the Sun, with nothing wasted and nothing emitted.</p>
+
+  <p class="intro-text">It combines two original systems designed by M.J. Azzopardi — the <strong>TriCore V2 Solar Energy Matrix</strong> and the <strong>ART-01 Atmospheric Resource Tower</strong> — into one unified structure where each system powers and feeds the other in a closed loop.</p>
+
+  <div class="integration">
+    <p>The TriCore generates more power than it needs. That surplus powers the ART-01 atmospheric water system. The ART-01 produces more water than it needs. That surplus feeds the hydrogen electrolyser. The hydrogen stores energy for the night. At night that energy powers everything. One tower. One loop. No waste.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- HOW IT WORKS -->
+<div class="section">
+  <div class="section-tag">// How It Works</div>
+  <h2 class="section-title">From <span>Sunlight</span><br><em>to Everything</em></h2>
+
+  <div class="sys-grid">
+    <div class="sys-card">
+      <span class="sys-icon">🌞</span>
+      <div class="sys-title gold">TriCore V2</div>
+      <p>Thousands of heliostat mirrors surround the tower base, tracking the Sun and focusing all that light onto the tower tip. At the tip a ceramic core heats to 1,400°C. That heat converts directly to electricity across a vacuum gap 85 nanometres wide — no turbines, no moving parts.</p>
+      <p>Waste heat from the process feeds the water and air systems below. Surplus electricity goes to hydrogen production. Molten salt stores thermal energy for overnight operation.</p>
+      <div class="sys-stat">OUTPUT — 5–20 MW CONTINUOUS · 24/7 WITH THERMAL STORAGE</div>
+    </div>
+    <div class="sys-card">
+      <span class="sys-icon">💧</span>
+      <div class="sys-title cyan">ART-01</div>
+      <p>Air is drawn in from the upper tower. It passes over cooling coils — the temperature drop causes moisture to condense and collect. That water passes through three filtration stages: sediment, activated carbon, and UV sterilisation. Clean drinking water flows to storage below.</p>
+      <p>The cooling system that drives this process runs entirely on TriCore surplus power. The waste heat from the TriCore boosts condensation efficiency. Two systems, one loop.</p>
+      <div class="sys-stat">OUTPUT — UP TO 300,000 LITRES PER DAY AT FULL SCALE</div>
+    </div>
+    <div class="sys-card">
+      <span class="sys-icon">🌿</span>
+      <div class="sys-title green">Air Purification</div>
+      <p>Air drawn through the tower passes through carbon capture filters and electrostatic particulate removal before being released back into the atmosphere at mid-tower level. The air that leaves is cleaner than the air that entered.</p>
+      <p>In urban deployments this creates a continuous purification effect on the surrounding environment — the tower breathes the city's air and returns it clean.</p>
+      <div class="sys-stat">OUTPUT — CONTINUOUS · CARBON CAPTURE + PARTICULATE REMOVAL</div>
+    </div>
+    <div class="sys-card">
+      <span class="sys-icon">🔋</span>
+      <div class="sys-title amber">Hydrogen Fuel</div>
+      <p>Surplus electricity from the TriCore routes to an electrolyser that splits water into hydrogen and oxygen. The hydrogen is compressed and stored in tanks at the tower base — available as long-term energy reserve, grid export, or vehicle fuel.</p>
+      <p>Overnight, stored hydrogen and molten salt thermal energy keep the entire tower running without sunlight. The system never stops.</p>
+      <div class="sys-stat">OUTPUT — GENERATED DURING SURPLUS · DAYS TO WEEKS RESERVE</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- THE LOOP -->
+<div class="section">
+  <div class="section-tag">// The Integrated Loop</div>
+  <h2 class="section-title">Why <span>Integration</span><br><em>Changes Everything</em></h2>
+
+  <p style="font-size:18px; color:var(--text-dim); margin-bottom:30px; line-height:1.9;">Standalone, both systems have weaknesses. The TriCore needs water for its cooling and electrolysis loops. The ART-01 needs power to run its fans and condensation system. Integrated, each system's surplus becomes the other system's fuel.</p>
+
+  <div class="loop-box">
+    <div class="loop-title">The Self-Sustaining Loop</div>
+    <div class="loop-steps">
+      <div class="loop-step">
+        <span class="loop-step-icon">☀️</span>
+        <div class="loop-step-text">SUN HEATS<br>TRICORE CORE</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">
+        <span class="loop-step-icon">⚡</span>
+        <div class="loop-step-text">ELECTRICITY<br>GENERATED</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">
+        <span class="loop-step-icon">💧</span>
+        <div class="loop-step-text">POWERS<br>ART-01 WATER</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">
+        <span class="loop-step-icon">🔋</span>
+        <div class="loop-step-text">SURPLUS WATER<br>→ HYDROGEN</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">
+        <span class="loop-step-icon">🌙</span>
+        <div class="loop-step-text">HYDROGEN POWERS<br>NIGHT OPERATION</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">
+        <span class="loop-step-icon">🔄</span>
+        <div class="loop-step-text">CYCLE<br>REPEATS</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SPECIFICATIONS -->
+<div class="section">
+  <div class="section-tag">// Technical Specifications</div>
+  <h2 class="section-title">Full <span>Tower</span><br><em>Specifications</em></h2>
+
+  <table class="spec-table">
+    <tr><th>Parameter</th><th>Specification</th></tr>
+    <tr><td>Tower Height</td><td>80 – 300 metres depending on scale</td></tr>
+    <tr><td>Base Footprint</td><td>20 – 80 metre diameter</td></tr>
+    <tr><td>Mirror Field Radius</td><td>200 – 500 metres surrounding tower</td></tr>
+    <tr><td>Electricity Output</td><td>5 – 20 MW continuous</td></tr>
+    <tr><td>Water Output</td><td>50,000 – 300,000 litres per day</td></tr>
+    <tr><td>Operation</td><td>24/7 — day and night via thermal and hydrogen storage</td></tr>
+    <tr><td>Core Temperature</td><td>1,200 – 1,673 K at TriCore ceramic absorber</td></tr>
+    <tr><td>Vacuum Gap</td><td>85 – 500 nanometres, active piezoelectric control</td></tr>
+    <tr><td>Energy Utilisation</td><td>94.2% combined heat and power</td></tr>
+    <tr><td>Frame</td><td>Carbon-reinforced steel composite, tapered form</td></tr>
+    <tr><td>Outer Skin</td><td>Heat-reactive solar panels — absorb or reflect as needed</td></tr>
+    <tr><td>AI Control</td><td>Real-time adaptive management of all subsystems</td></tr>
+    <tr><td>Deployment</td><td>Desert, urban, coastal, remote — global</td></tr>
+  </table>
+</div>
+
+<hr class="divider">
+
+<!-- WHAT IS PROVEN -->
+<div class="section">
+  <div class="section-tag">// Honest Assessment</div>
+  <h2 class="section-title">What <span>Works</span><br><em>Today</em></h2>
+
+  <p style="font-size:17px; color:var(--text-dim); margin-bottom:30px; line-height:1.9;">The Azzopardi Tower is a pre-prototype design. It is built on a foundation of proven technology combined with emerging research. This is the honest breakdown.</p>
+
+  <div class="realism-grid">
+    <div class="realism-col">
+      <div class="realism-title proven">✓ Proven Technology</div>
+      <div class="realism-item proven">Concentrated solar power towers — operating worldwide</div>
+      <div class="realism-item proven">Molten salt thermal storage — deployed commercially</div>
+      <div class="realism-item proven">Atmospheric water generation — commercial products exist</div>
+      <div class="realism-item proven">3-stage water filtration — WHO standard</div>
+      <div class="realism-item proven">Hydrogen electrolysis — green hydrogen industry standard</div>
+      <div class="realism-item proven">Carbon and HEPA air filtration — standard technology</div>
+      <div class="realism-item proven">AI grid optimisation — deployed in modern smart grids</div>
+    </div>
+    <div class="realism-col">
+      <div class="realism-title emerging">◎ Emerging Research</div>
+      <div class="realism-item emerging">Near-field TPV at commercial scale — active research at MIT and Stanford</div>
+      <div class="realism-item emerging">Full system integration at this level — not yet demonstrated</div>
+      <div class="realism-item emerging">85nm vacuum gap stability at tower scale — lab-demonstrated, not deployed</div>
+      <div class="realism-item emerging">Complete self-sustaining loop — theoretically sound, experimentally unvalidated</div>
+    </div>
+  </div>
+
+  <div style="border-left:3px solid var(--gold); background:var(--gold-glow); padding:20px 24px; margin-top:20px; font-size:15px; color:var(--text-dim); font-style:italic;">
+    The ART-01 water and air system can be prototyped today for £5,000–£15,000 and will produce real clean water. The TriCore nano-core is the most technically demanding component and requires specialist nanofabrication equipment. Both systems independently function. The integrated loop is the next frontier.
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- PHASES -->
+<div class="section">
+  <div class="section-tag">// Build Roadmap</div>
+  <h2 class="section-title">Four <span>Phases</span><br><em>to Full Scale</em></h2>
+
+  <div class="phases">
+    <div class="phase">
+      <div class="phase-num">// PHASE 01</div>
+      <div class="phase-name">Prototype</div>
+      <p>10–30 metre ART-01 water and solar tower. Buildable now. Produces real clean water. Proves the atmospheric extraction concept.</p>
+      <div class="phase-cost">£5,000 – £15,000</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">// PHASE 02</div>
+      <div class="phase-name">Mid Tower</div>
+      <p>50–100 metres. Add wind turbines, air filtration, and TriCore nano-core bench prototype. Power small communities.</p>
+      <div class="phase-cost">£500,000 – £2,000,000</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">// PHASE 03</div>
+      <div class="phase-name">Full Tower</div>
+      <p>80–150 metres. Complete integrated Azzopardi Tower. TriCore + ART-01 running as one system. City-scale output.</p>
+      <div class="phase-cost">£20,000,000 – £80,000,000</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">// PHASE 04</div>
+      <div class="phase-name">Network</div>
+      <p>Multiple towers connected in an intelligent mesh grid. Towers share data, balance load, and back each other up. Planetary infrastructure.</p>
+      <div class="phase-cost">£200,000,000+</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- INVENTOR -->
+<div class="section">
+  <div class="section-tag">// The Designer</div>
+  <div class="inventor-box">
+    <div class="inventor-name">M.J. Azzopardi</div>
+    <div class="inventor-title">Philosopher · Inventor · Designer</div>
+    <p>The Azzopardi Tower is part of a wider body of original work spanning clean energy infrastructure, atmospheric resource systems, heart resonance research, and a Theory of Everything connecting the soul, the Sun, and the Earth as unified living systems.</p>
+    <p>All designs originated independently and are documented and timestamped on public record.</p>
+    <a href="mailto:mr.m.j.azzopardi@gmail.com" class="contact-link">mr.m.j.azzopardi@gmail.com</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">The Azzopardi Tower</div>
+  <div class="footer-sub">Original Design — M.J. Azzopardi — 2026</div>
+  <div class="footer-outputs">Energy · Clean Water · Pure Air · Hydrogen</div>
+  <div class="footer-copy">Part of the Apex Ecosystem · Zion-Zero Infrastructure · Theory of Everything</div>
+</footer>
+
+</body>
+</html>
